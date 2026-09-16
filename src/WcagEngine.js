@@ -1,3 +1,5 @@
+import { hexToRgb } from "./color"
+
 /**
  * Represents the WCAG engine.
  */
@@ -30,5 +32,7 @@ export class WcagEngine {
    * @param {string} backgroundColor - Hex color (e.g. '#1a1a1a').
    */
   checkContrast(foregroundColor, backgroundColor) {
+    const foregroundRgb = hexToRgb(foregroundColor)
+    const backgroundRgb = hexToRgb(backgroundColor)
   }
 }
