@@ -1,5 +1,3 @@
-import { hexToRgb } from "./color"
-
 /**
  * Represents the WCAG engine.
  */
@@ -27,12 +25,9 @@ export class WcagEngine {
 
   /**
    * Checks the contrast ratio between two colors against WCAG 2.2 thresholds.
-   *
-   * @param {string} foregroundColor - Hex color (e.g. '#fafafa').
-   * @param {string} backgroundColor - Hex color (e.g. '#1a1a1a').
    */
-  checkContrast(foregroundColor, backgroundColor) {
-    const foregroundRgb = hexToRgb(foregroundColor)
-    const backgroundRgb = hexToRgb(backgroundColor)
+  checkContrast() {
+    // TODO: implement contrast check
+    throw new Error('Not implemented')
   }
 }
