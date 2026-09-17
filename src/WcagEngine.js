@@ -1,4 +1,4 @@
-import { hexToRgb, linearize, relativeLuminance, contrastRatio } from "./color"
+import { hexToRgb, linearize, relativeLuminance, contrastRatio } from './color'
 
 /**
  * Represents the WCAG engine.
