@@ -36,7 +36,7 @@ export class WcagEngine {
   }
 
   /**
-   * Checks the contrast ratio between two colors against WCAG 2.2 thresholds.
+   * Checks the contrast ratio between two colors against WCAG 2.2 thresholds (1.4.3, 1.4.6).
    *
    * @param {string} foregroundColor - Hex color (e.g. '#fafafa').
    * @param {string} backgroundColor - Hex color (e.g. '#1a1a1a').
@@ -62,5 +62,25 @@ export class WcagEngine {
     const aaaThreshold = isLargeText ? 4.5 : 7
 
     return { ratio, aa: ratio >= aaThreshold, aaa: ratio >= aaaThreshold }
+  }
+
+  /**
+   * Checks the target size of interactive elements against WCAG 2.2 thresholds (2.5.5, 2.5.8).
+   *
+   * @param {number} width - Element width in CSS pixels.
+   * @param {number} height - Element height in CSS pixels.
+   * @returns {{ aa: boolean, aaa: boolean, requiredAa: number, requiredAaa: number }} Pass/fail and required size per level.
+   */
+  checkTargetSize(width, height) {
+    if (typeof width !== 'number' || typeof height !== 'number' || width <= 0 || height <= 0) {
+      throw new Error('Width and height must be positive numbers in px.')
+    }
+
+    return {
+      aa: width >= 24 && height >= 24,
+      aaa: width >= 44 && height >= 44,
+      requiredAa: 24,
+      requiredAaa: 44
+    }
   }
 }

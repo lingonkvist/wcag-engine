@@ -14,3 +14,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `contrastRatio` for calculating the ratio between luminance values
 - `WcagEngine` class with configurable conformance level
 - `checkContrast` method for WCAG 2.2 contrast checking
+- Large text support for `checkContrast`
+- `checkTargetSize` method for WCAG 2.2 target size checking
