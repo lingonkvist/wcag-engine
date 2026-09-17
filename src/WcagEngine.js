@@ -26,6 +26,16 @@ export class WcagEngine {
   }
 
   /**
+   * Sets the WCAG conformance level.
+   */
+  set conformanceLevel(level) {
+    if (level !== 'AA' && level !== 'AAA') {
+      throw new Error('Conformance level must be AA or AAA')
+    }
+    this.#conformanceLevel = level
+  }
+
+  /**
    * Checks the contrast ratio between two colors against WCAG 2.2 thresholds.
    *
    * @param {string} foregroundColor - Hex color (e.g. '#fafafa').
