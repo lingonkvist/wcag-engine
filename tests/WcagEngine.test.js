@@ -52,5 +52,17 @@ describe('WcagEngine', () => {
     test('invalid font weight throws error', () => {
       expect(() => engine.checkContrast('#949494', '#ffffff', { fontSize: 24, fontWeight: -1 })).toThrow()
     })
+
+    test('passes reflects AA conformance level', () => {
+      const engine = new WcagEngine({ conformanceLevel: 'AA' })
+      const result = engine.checkContrast('#757575', '#ffffff')
+      expect(result.passes).toBe(result.aa)
+    })
+
+    test('passes reflects AAA conformance level', () => {
+      const engine = new WcagEngine({ conformanceLevel: 'AAA' })
+      const result = engine.checkContrast('#757575', '#ffffff')
+      expect(result.passes).toBe(result.aaa)
+    })
   })
 })

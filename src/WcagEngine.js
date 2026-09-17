@@ -17,9 +17,9 @@ export class WcagEngine {
   }
 
   /**
-   * Gets the WCAG current conformance level setting.
+   * Gets the current WCAG conformance level.
    *
-   * @returns {number} The WCAG conformance level.
+   * @returns {string} The WCAG conformance level.
    */
   get conformanceLevel() {
     return this.#conformanceLevel
@@ -43,7 +43,7 @@ export class WcagEngine {
    * @param {object} [options] - Optional properties for large-scale text.
    * @param {number} [options.fontSize] - Font size in px.
    * @param {number} [options.fontWeight] - Font weight (e.g. 700).
-   * @returns {{ ratio: number, aa: boolean, aaa: boolean }} Contrast result with ratio and pass/fail per level.
+   * @returns {{ ratio: number, aa: boolean, aaa: boolean, passes: boolean }} Contrast result with ratio and pass/fail per level.
    */
   checkContrast(foregroundColor, backgroundColor, { fontSize, fontWeight } = {}) {
     if (fontSize !== undefined && (typeof fontSize !== 'number' || fontSize <= 0)) {
@@ -61,7 +61,10 @@ export class WcagEngine {
     const aaThreshold = isLargeText ? 3 : 4.5
     const aaaThreshold = isLargeText ? 4.5 : 7
 
-    return { ratio, aa: ratio >= aaThreshold, aaa: ratio >= aaaThreshold }
+    const aa = ratio >= aaThreshold
+    const aaa = ratio >= aaaThreshold
+
+    return { ratio, aa, aaa, passes: this.#passes(aa, aaa) }
   }
 
   /**
@@ -69,18 +72,27 @@ export class WcagEngine {
    *
    * @param {number} width - Element width in CSS pixels.
    * @param {number} height - Element height in CSS pixels.
-   * @returns {{ aa: boolean, aaa: boolean, requiredAa: number, requiredAaa: number }} Pass/fail and required size per level.
+   * @returns {{ aa: boolean, aaa: boolean, passes: boolean, requiredAa: number, requiredAaa: number }} Pass/fail and required size per level.
    */
   checkTargetSize(width, height) {
     if (typeof width !== 'number' || typeof height !== 'number' || width <= 0 || height <= 0) {
       throw new Error('Width and height must be positive numbers in px.')
     }
 
-    return {
-      aa: width >= 24 && height >= 24,
-      aaa: width >= 44 && height >= 44,
-      requiredAa: 24,
-      requiredAaa: 44
-    }
+    const aa = width >= 24 && height >= 24
+    const aaa = width >= 44 && height >= 44
+
+    return { aa, aaa, passes: this.#passes(aa, aaa), requiredAa: 24, requiredAaa: 44 }
+  }
+
+  /**
+   * Checks if the result passes the configured conformance level.
+   *
+   * @param {boolean} aa - AA pass result.
+   * @param {boolean} aaa - AAA pass result.
+   * @returns {boolean} Whether it passes the configured level.
+   */
+  #passes(aa, aaa) {
+    return this.#conformanceLevel === 'AAA' ? aaa : aa
   }
 }
