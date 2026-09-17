@@ -40,13 +40,27 @@ export class WcagEngine {
    *
    * @param {string} foregroundColor - Hex color (e.g. '#fafafa').
    * @param {string} backgroundColor - Hex color (e.g. '#1a1a1a').
+   * @param {object} [options] - Optional properties for large-scale text.
+   * @param {number} [options.fontSize] - Font size in px.
+   * @param {number} [options.fontWeight] - Font weight (e.g. 700).
    * @returns {{ ratio: number, aa: boolean, aaa: boolean }} Contrast result with ratio and pass/fail per level.
    */
-  checkContrast(foregroundColor, backgroundColor) {
+  checkContrast(foregroundColor, backgroundColor, { fontSize, fontWeight } = {}) {
+    if (fontSize !== undefined && (typeof fontSize !== 'number' || fontSize <= 0)) {
+      throw new Error('fontSize must be a positive number in px.')
+    }
+    if (fontWeight !== undefined && (typeof fontWeight !== 'number' || fontWeight <= 0)) {
+      throw new Error('fontWeight must be a positive number.')
+    }
+
     const fgLuminance = relativeLuminance(linearize(hexToRgb(foregroundColor)))
     const bgLuminance = relativeLuminance(linearize(hexToRgb(backgroundColor)))
     const ratio = contrastRatio(fgLuminance, bgLuminance)
 
-    return { ratio, aa: ratio >= 4.5, aaa: ratio >= 7 }
+    const isLargeText = fontSize >= 24 || (fontSize >= 18.66 && fontWeight >= 700)
+    const aaThreshold = isLargeText ? 3 : 4.5
+    const aaaThreshold = isLargeText ? 4.5 : 7
+
+    return { ratio, aa: ratio >= aaThreshold, aaa: ratio >= aaaThreshold }
   }
 }
