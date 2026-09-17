@@ -1,3 +1,5 @@
+import { hexToRgb, linearize, relativeLuminance, contrastRatio } from './color'
+
 /**
  * Represents the WCAG engine.
  */
@@ -24,10 +26,27 @@ export class WcagEngine {
   }
 
   /**
-   * Checks the contrast ratio between two colors against WCAG 2.2 thresholds.
+   * Sets the WCAG conformance level.
    */
-  checkContrast() {
-    // TODO: implement contrast check
-    throw new Error('Not implemented')
+  set conformanceLevel(level) {
+    if (level !== 'AA' && level !== 'AAA') {
+      throw new Error('Conformance level must be AA or AAA')
+    }
+    this.#conformanceLevel = level
+  }
+
+  /**
+   * Checks the contrast ratio between two colors against WCAG 2.2 thresholds.
+   *
+   * @param {string} foregroundColor - Hex color (e.g. '#fafafa').
+   * @param {string} backgroundColor - Hex color (e.g. '#1a1a1a').
+   * @returns {{ ratio: number, aa: boolean, aaa: boolean }} Contrast result with ratio and pass/fail per level.
+   */
+  checkContrast(foregroundColor, backgroundColor) {
+    const fgLuminance = relativeLuminance(linearize(hexToRgb(foregroundColor)))
+    const bgLuminance = relativeLuminance(linearize(hexToRgb(backgroundColor)))
+    const ratio = contrastRatio(fgLuminance, bgLuminance)
+
+    return { ratio, aa: ratio >= 4.5, aaa: ratio >= 7 }
   }
 }
