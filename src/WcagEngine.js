@@ -1,5 +1,21 @@
 import { hexToRgb, linearize, relativeLuminance, contrastRatio } from './color'
 
+const CONTRAST_THRESHOLDS = {
+  aa: { normal: 4.5, large: 3 },
+  aaa: { normal: 7, large: 4.5 },
+}
+
+const TARGET_SIZE = {
+  aa: 24,
+  aaa: 44
+}
+
+const LARGE_TEXT = {
+  minSize: 24,
+  minBoldSize: 18.66,
+  minWeight: 700
+}
+
 /**
  * Represents the WCAG engine.
  */
@@ -36,7 +52,8 @@ export class WcagEngine {
   }
 
   /**
-   * Checks the contrast ratio between two colors against WCAG 2.2 thresholds (1.4.3, 1.4.6).
+   * Checks text contrast against WCAG 2.2 thresholds (1.4.3, 1.4.6).
+   * Supports large text detection via optional font properties.
    *
    * @param {string} foregroundColor - Hex color (e.g. '#fafafa').
    * @param {string} backgroundColor - Hex color (e.g. '#1a1a1a').
@@ -53,13 +70,11 @@ export class WcagEngine {
       throw new Error('fontWeight must be a positive number.')
     }
 
-    const fgLuminance = relativeLuminance(linearize(hexToRgb(foregroundColor)))
-    const bgLuminance = relativeLuminance(linearize(hexToRgb(backgroundColor)))
-    const ratio = contrastRatio(fgLuminance, bgLuminance)
+    const ratio = this.#computeRatio(foregroundColor, backgroundColor)
 
-    const isLargeText = fontSize >= 24 || (fontSize >= 18.66 && fontWeight >= 700)
-    const aaThreshold = isLargeText ? 3 : 4.5
-    const aaaThreshold = isLargeText ? 4.5 : 7
+    const isLargeText = fontSize >= LARGE_TEXT.minSize || (fontSize >= LARGE_TEXT.minBoldSize && fontWeight >= LARGE_TEXT.minWeight)
+    const aaThreshold = isLargeText ? CONTRAST_THRESHOLDS.aa.large : CONTRAST_THRESHOLDS.aa.normal
+    const aaaThreshold = isLargeText ? CONTRAST_THRESHOLDS.aaa.large : CONTRAST_THRESHOLDS.aaa.normal
 
     const aa = ratio >= aaThreshold
     const aaa = ratio >= aaaThreshold
@@ -79,10 +94,10 @@ export class WcagEngine {
       throw new Error('Width and height must be positive numbers in px.')
     }
 
-    const aa = width >= 24 && height >= 24
-    const aaa = width >= 44 && height >= 44
+    const aa = width >= TARGET_SIZE.aa && height >= TARGET_SIZE.aa
+    const aaa = width >= TARGET_SIZE.aaa && height >= TARGET_SIZE.aaa
 
-    return { aa, aaa, passes: this.#passes(aa, aaa), requiredAa: 24, requiredAaa: 44 }
+    return { aa, aaa, passes: this.#passes(aa, aaa), requiredAa: TARGET_SIZE.aa, requiredAaa: TARGET_SIZE.aaa }
   }
 
   /**
@@ -94,5 +109,18 @@ export class WcagEngine {
    */
   #passes(aa, aaa) {
     return this.#conformanceLevel === 'AAA' ? aaa : aa
+  }
+
+  /**
+   * Computes the contrast ratio between two hex colors.
+   *
+   * @param {string} color1 - Hex color.
+   * @param {string} color2 - Hex color.
+   * @returns {number} Contrast ratio, 1 to 21.
+   */
+  #computeRatio(color1, color2) {
+    const l1 = relativeLuminance(linearize(hexToRgb(color1)))
+    const l2 = relativeLuminance(linearize(hexToRgb(color2)))
+    return contrastRatio(l1, l2)
   }
 }
