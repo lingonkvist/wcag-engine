@@ -3,17 +3,18 @@ import { hexToRgb, linearize, relativeLuminance, contrastRatio } from './color'
 const CONTRAST_THRESHOLDS = {
   aa: { normal: 4.5, large: 3 },
   aaa: { normal: 7, large: 4.5 },
+  nonText: 3,
 }
 
 const TARGET_SIZE = {
   aa: 24,
-  aaa: 44
+  aaa: 44,
 }
 
 const LARGE_TEXT = {
   minSize: 24,
   minBoldSize: 18.66,
-  minWeight: 700
+  minWeight: 700,
 }
 
 /**
@@ -72,7 +73,8 @@ export class WcagEngine {
 
     const ratio = this.#computeRatio(foregroundColor, backgroundColor)
 
-    const isLargeText = fontSize >= LARGE_TEXT.minSize || (fontSize >= LARGE_TEXT.minBoldSize && fontWeight >= LARGE_TEXT.minWeight)
+    const isLargeText =
+      fontSize >= LARGE_TEXT.minSize || (fontSize >= LARGE_TEXT.minBoldSize && fontWeight >= LARGE_TEXT.minWeight)
     const aaThreshold = isLargeText ? CONTRAST_THRESHOLDS.aa.large : CONTRAST_THRESHOLDS.aa.normal
     const aaaThreshold = isLargeText ? CONTRAST_THRESHOLDS.aaa.large : CONTRAST_THRESHOLDS.aaa.normal
 
@@ -80,6 +82,21 @@ export class WcagEngine {
     const aaa = ratio >= aaaThreshold
 
     return { ratio, aa, aaa, passes: this.#passes(aa, aaa) }
+  }
+
+  /**
+   * Checks non-text contrast for UI components and graphical objects against WCAG 2.2 (1.4.11).
+   *
+   * @param {string} foregroundColor - Hex color (e.g. '#fafafa').
+   * @param {string} backgroundColor - Hex color (e.g. '#1a1a1a').
+   * @returns {{ ratio: number, aa: boolean, passes: boolean }} Contrast result with ratio and pass/fail for AA.
+   */
+  checkNonTextContrast(foregroundColor, backgroundColor) {
+    const ratio = this.#computeRatio(foregroundColor, backgroundColor)
+
+    const aa = ratio >= CONTRAST_THRESHOLDS.nonText
+
+    return { ratio, aa, passes: this.#passes(aa, aa) }
   }
 
   /**

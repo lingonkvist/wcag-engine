@@ -21,6 +21,14 @@ describe('WcagEngine', () => {
       expect(result.aaa).toBe(false)
     })
 
+    test('light gray on white fails AA and AAA', () => {
+      const result = engine.checkContrast('#C8C8C8', '#ffffff')
+
+      expect(result.ratio).toBeCloseTo(1.67, 1)
+      expect(result.aa).toBe(false)
+      expect(result.aaa).toBe(false)
+    })
+
     test('large-scale font size passes AA but fails AAA', () => {
       const result = engine.checkContrast('#949494', '#ffffff', { fontSize: 24 })
 
@@ -37,20 +45,35 @@ describe('WcagEngine', () => {
       expect(result.aaa).toBe(false)
     })
 
-    test('light gray on white fails AA and AAA', () => {
-      const result = engine.checkContrast('#C8C8C8', '#ffffff')
-
-      expect(result.ratio).toBeCloseTo(1.67, 1)
-      expect(result.aa).toBe(false)
-      expect(result.aaa).toBe(false)
-    })
-
     test('invalid font size throws error', () => {
       expect(() => engine.checkContrast('#949494', '#ffffff', { fontSize: -1 })).toThrow()
     })
 
     test('invalid font weight throws error', () => {
       expect(() => engine.checkContrast('#949494', '#ffffff', { fontSize: 24, fontWeight: -1 })).toThrow()
+    })
+  })
+
+  describe('checkNonTextContrast', () => {
+    test('black on white returns maximum contrast', () => {
+      const result = engine.checkNonTextContrast('#000000', '#ffffff')
+
+      expect(result.ratio).toBeCloseTo(21, 1)
+      expect(result.aa).toBe(true)
+    })
+
+    test('gray on white passes AA', () => {
+      const result = engine.checkNonTextContrast('#949494', '#ffffff')
+
+      expect(result.ratio).toBeCloseTo(3.03, 1)
+      expect(result.aa).toBe(true)
+    })
+
+    test('light gray on white fails AA', () => {
+      const result = engine.checkNonTextContrast('#C8C8C8', '#ffffff')
+
+      expect(result.ratio).toBeCloseTo(1.67, 1)
+      expect(result.aa).toBe(false)
     })
   })
 
