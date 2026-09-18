@@ -17,3 +17,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Large text support for `checkContrast`
 - `checkTargetSize` method for WCAG 2.2 target size checking
 - `passes` property in check results based on configured conformance level
+- `checkNonTextContrast` method for WCAG 2.2 non-text contrast checking
