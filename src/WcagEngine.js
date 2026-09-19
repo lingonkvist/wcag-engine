@@ -1,4 +1,4 @@
-import { hexToRgb, linearize, relativeLuminance, contrastRatio } from './color'
+import { hexToRgb, linearize, relativeLuminance, contrastRatio } from './color.js'
 
 const CONTRAST_THRESHOLDS = {
   aa: { normal: 4.5, large: 3 },

@@ -7,14 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-09-19
+
 ### Added
 
-- `hexToRgb` utility for converting hex colors to RGB values
-- `linearize` and `relativeLuminance` color utilities
-- `contrastRatio` for calculating the ratio between luminance values
-- `WcagEngine` class with configurable conformance level
-- `checkContrast` method for WCAG 2.2 contrast checking
-- Large text support for `checkContrast`
-- `checkTargetSize` method for WCAG 2.2 target size checking
+- `WcagEngine` class with configurable conformance level (AA/AAA)
+- `checkContrast` method for text contrast checking (WCAG 2.2 1.4.3, 1.4.6)
+- Large text support via optional `fontSize` and `fontWeight` parameters
+- `checkNonTextContrast` method for UI component contrast checking (WCAG 2.2 1.4.11)
+- `checkTargetSize` method for interactive element size checking (WCAG 2.2 2.5.5, 2.5.8)
 - `passes` property in check results based on configured conformance level
-- `checkNonTextContrast` method for WCAG 2.2 non-text contrast checking
+- `contrastRatio` and `relativeLuminance` exported as standalone utilities
