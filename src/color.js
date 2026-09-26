@@ -1,5 +1,7 @@
 // Formulas from WCAG 2.2: https://www.w3.org/TR/WCAG22/#dfn-contrast-ratio.
 
+
+
 /**
  * Converts a hex color into its RGB channel values.
  *
@@ -7,13 +9,29 @@
  * @returns {number[]} RGB values as [red, green, blue].
  */
 export function hexToRgb(hex) {
-  if (!/^#[0-9a-f]{6}$/i.test(hex)) throw new Error('Expected a hex color in the format #rrggbb')
+  if (!/^#[0-9a-f]{6}$/i.test(hex)) {
+    throw new Error('Expected a hex color in the format #rrggbb')
+  }
 
   const r = parseInt(hex.slice(1, 3), 16)
   const g = parseInt(hex.slice(3, 5), 16)
   const b = parseInt(hex.slice(5, 7), 16)
 
   return [r, g, b]
+}
+
+/**
+ * Parses an RGB color into an array of channel values.
+ *
+ * @param {string} color - RGB color in the format rgb(r, g, b).
+ * @returns {number[]} RGB values as [red, green, blue].
+ */
+export function parseRgbString(color) {
+  if (!/^rgb\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*\)$/.test(color)) {
+    throw new Error('Expected a RGB color in the format rgb(255, 0, 0)')
+  }
+
+  return color.slice(4, -1).split(',').map(Number)
 }
 
 /**
