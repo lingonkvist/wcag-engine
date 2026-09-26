@@ -9,6 +9,16 @@ export default [
       jsdoc: {
         ignorePrivate: true
       }
+    },
+    rules: {
+      'jsdoc/require-jsdoc': ['warn', {
+        require: {
+          FunctionDeclaration: true,
+          MethodDefinition: true,
+          ClassDeclaration: true
+        },
+        publicOnly: true
+      }]
     }
   }
 ]
