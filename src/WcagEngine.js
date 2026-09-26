@@ -36,7 +36,7 @@ export class WcagEngine {
   /**
    * Gets the current WCAG conformance level.
    *
-   * @returns {string} The WCAG conformance level.
+   * @returns {'AA'|'AAA'} The WCAG conformance level.
    */
   get conformanceLevel() {
     return this.#conformanceLevel
@@ -44,6 +44,9 @@ export class WcagEngine {
 
   /**
    * Sets the WCAG conformance level.
+   *
+   * @param {'AA'|'AAA'} level - Desired conformance level.
+   * @throws {Error} If level is not AA or AAA.
    */
   set conformanceLevel(level) {
     if (level !== 'AA' && level !== 'AAA') {
@@ -117,24 +120,12 @@ export class WcagEngine {
     return { aa, aaa, passes: this.#passes(aa, aaa), requiredAa: TARGET_SIZE.aa, requiredAaa: TARGET_SIZE.aaa }
   }
 
-  /**
-   * Checks if the result passes the configured conformance level.
-   *
-   * @param {boolean} aa - AA pass result.
-   * @param {boolean} aaa - AAA pass result.
-   * @returns {boolean} Whether it passes the configured level.
-   */
+  /** @private */
   #passes(aa, aaa) {
     return this.#conformanceLevel === 'AAA' ? aaa : aa
   }
 
-  /**
-   * Computes the contrast ratio between two hex colors.
-   *
-   * @param {string} color1 - Hex color.
-   * @param {string} color2 - Hex color.
-   * @returns {number} Contrast ratio, 1 to 21.
-   */
+  /** @private */
   #computeRatio(color1, color2) {
     const l1 = relativeLuminance(linearize(hexToRgb(color1)))
     const l2 = relativeLuminance(linearize(hexToRgb(color2)))
