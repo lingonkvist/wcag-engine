@@ -52,6 +52,20 @@ describe('WcagEngine', () => {
     test('invalid font weight throws error', () => {
       expect(() => engine.checkContrast('#949494', '#ffffff', { fontSize: 24, fontWeight: -1 })).toThrow()
     })
+
+    test('accepts RGB array input', () => {
+      const result = engine.checkContrast([0, 0, 0], [255, 255, 255])
+
+      expect(result.ratio).toBeCloseTo(21, 1)
+      expect(result.aa).toBe(true)
+    })
+
+    test('accepts RGB object input', () => {
+      const result = engine.checkContrast({ r: 0, g: 0, b: 0 }, { r: 255, g: 255, b: 255 })
+
+      expect(result.ratio).toBeCloseTo(21, 1)
+      expect(result.aa).toBe(true)
+    })
   })
 
   describe('checkNonTextContrast', () => {

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-09-26
+
+### Added
+
+- RGB color format support: array, object, and `rgb()` string inputs alongside hex
+- `parseRgbString` utility for parsing rgb string into channel values
+- `normalizeColor` utility for converting any supported format to RGB values
+
 ## [1.0.0] - 2026-09-19
 
 ### Added

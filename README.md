@@ -26,6 +26,11 @@ const engine = new WcagEngine({ conformanceLevel: 'AA' })
 const contrast = engine.checkContrast('#1a1a2e', '#ffffff')
 // { ratio: 17.06, aa: true, aaa: true, passes: true }
 
+// All color formats are supported
+engine.checkContrast([0, 0, 0], [255, 255, 255])
+engine.checkContrast({ r: 0, g: 0, b: 0 }, '#ffffff')
+engine.checkContrast('rgb(0, 0, 0)', '#ffffff')
+
 // Large text uses lower thresholds
 const large = engine.checkContrast('#949494', '#ffffff', { fontSize: 24 })
 // { ratio: 3.03, aa: true, aaa: false, passes: true }
@@ -42,8 +47,10 @@ const size = engine.checkTargetSize(44, 44)
 ### Standalone utilities
 
 ```js
-import { contrastRatio, relativeLuminance } from 'wcag-engine'
+import { normalizeColor, contrastRatio, relativeLuminance } from 'wcag-engine'
 
+const rgb = normalizeColor('#ff0000')
+// [255, 0, 0]
 const luminance = relativeLuminance([0.2, 0.4, 0.6])
 // 0.37
 const ratio = contrastRatio(0.05, 0.95)
