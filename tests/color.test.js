@@ -75,7 +75,7 @@ describe('linearize', () => {
 
   test('converts mid-range values', () => {
     const result = linearize([128, 128, 128])
-    result.forEach(channel => expect(channel).toBeCloseTo(0.216, 2))
+    result.forEach((channel) => expect(channel).toBeCloseTo(0.216, 2))
   })
 })
 

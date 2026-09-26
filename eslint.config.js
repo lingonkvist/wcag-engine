@@ -7,18 +7,21 @@ export default [
   {
     settings: {
       jsdoc: {
-        ignorePrivate: true
-      }
+        ignorePrivate: true,
+      },
     },
     rules: {
-      'jsdoc/require-jsdoc': ['warn', {
-        require: {
-          FunctionDeclaration: true,
-          MethodDefinition: true,
-          ClassDeclaration: true
+      'jsdoc/require-jsdoc': [
+        'warn',
+        {
+          require: {
+            FunctionDeclaration: true,
+            MethodDefinition: true,
+            ClassDeclaration: true,
+          },
+          publicOnly: true,
         },
-        publicOnly: true
-      }]
-    }
-  }
+      ],
+    },
+  },
 ]

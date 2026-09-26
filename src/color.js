@@ -92,7 +92,7 @@ export function contrastRatio(l1, l2) {
 }
 
 function validateRgbValues(values) {
-  if (values.length !== 3 || values.some(v => typeof v !== 'number' || v < 0 || v > 255)) {
+  if (values.length !== 3 || values.some((v) => typeof v !== 'number' || v < 0 || v > 255)) {
     throw new Error('RGB values must be three numbers in the range 0-255.')
   }
   return values
