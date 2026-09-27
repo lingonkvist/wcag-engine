@@ -1,6 +1,6 @@
 {
   "name": "wcag-engine",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "A WCAG 2.2 rules engine for design values.",
   "type": "module",
   "main": "src/index.js",
