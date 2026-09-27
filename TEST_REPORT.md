@@ -27,3 +27,15 @@ The `wcag-engine` module is verified with automated unit tests written in vitest
 | `WcagEngine.conformanceLevel` defaults to AA                            | Unit test on default instance                                                                       | Passed |
 | `WcagEngine.conformanceLevel` throws on invalid value                   | Unit test with `'B'`                                                                                | Passed |
 | `WcagEngine.passes` reflects configured conformance level               | Unit tests verifying `passes` matches `aa` at AA and `aaa` at AAA                                   | Passed |
+| `normalizeColor` passes through valid RGB array                         | Unit test with `[255, 0, 0]`                                                                        | Passed |
+| `normalizeColor` converts RGB object to array                           | Unit test with `{ r: 255, g: 0, b: 0 }`                                                             | Passed |
+| `normalizeColor` converts hex string to array                           | Unit test with `'#ff0000'`                                                                          | Passed |
+| `normalizeColor` converts rgb string to array                           | Unit test with `'rgb(255, 0, 0)'`                                                                   | Passed |
+| `normalizeColor` throws on unsupported format                           | Unit test with number input                                                                         | Passed |
+| `normalizeColor` throws on invalid RGB array values                     | Unit test with out of range values                                                                  | Passed |
+| `parseRgbString` parses rgb string to channel values                    | Unit test with `'rgb(255, 0, 0)'`                                                                   | Passed |
+| `parseRgbString` handles with and without spaces                        | Unit test with `'rgb(255,0,0)'`                                                                     | Passed |
+| `parseRgbString` throws on invalid format                               | Unit test with non-rgb string                                                                       | Passed |
+| `parseRgbString` throws on out of range values                          | Unit test with `'rgb(999, 0, 0)'`                                                                   | Passed |
+| `WcagEngine.checkContrast` accepts RGB array input                      | Unit test with array colors                                                                         | Passed |
+| `WcagEngine.checkContrast` accepts RGB object input                     | Unit test with object colors                                                                        | Passed |
