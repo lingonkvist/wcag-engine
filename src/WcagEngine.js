@@ -82,8 +82,8 @@ export class WcagEngine {
 
     const ratio = this.#computeRatio(foregroundColor, backgroundColor)
 
-    const isLargeText =
-      fontSize >= LARGE_TEXT.minSize || (fontSize >= LARGE_TEXT.minBoldSize && fontWeight >= LARGE_TEXT.minWeight)
+    const isLargeText = this.#isLargeText(fontSize, fontWeight)
+
     const aaThreshold = isLargeText ? CONTRAST_THRESHOLDS.aa.large : CONTRAST_THRESHOLDS.aa.normal
     const aaaThreshold = isLargeText ? CONTRAST_THRESHOLDS.aaa.large : CONTRAST_THRESHOLDS.aaa.normal
 
@@ -128,6 +128,10 @@ export class WcagEngine {
 
   #passes(aa, aaa) {
     return this.#conformanceLevel === 'AAA' ? aaa : aa
+  }
+
+  #isLargeText(fontSize, fontWeight) {
+    return fontSize >= LARGE_TEXT.minSize || (fontSize >= LARGE_TEXT.minBoldSize && fontWeight >= LARGE_TEXT.minWeight)
   }
 
   #computeRatio(color1, color2) {
