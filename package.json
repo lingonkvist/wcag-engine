@@ -7,6 +7,7 @@
   "exports": {
     ".": "./src/index.js"
   },
+  "types": "./src/types.js",
   "files": [
     "src",
     "README.md",
