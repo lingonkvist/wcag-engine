@@ -1,9 +1,11 @@
 // Formulas from WCAG 2.2: https://www.w3.org/TR/WCAG22/#dfn-contrast-ratio.
 
+/** @typedef {import('./types.js').Color} Color */
+
 /**
  * Normalizes a color string into RGB channel values.
  *
- * @param {string|number[]|{r: number, g: number, b: number}} color - Color as hex string, rgb string, array, or object.
+ * @param {Color} color - Color as hex string, rgb string, array, or object.
  * @returns {number[]} RGB values as [red, green, blue].
  */
 export function normalizeColor(color) {

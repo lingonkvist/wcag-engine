@@ -2,10 +2,13 @@
 
 > A WCAG 2.2 rules engine for design values.
 
-wcag-engine checks design values (colors, sizes) against WCAG 2.2 success
-criteria and returns pass/fail results. It doesn't care where the values
-come from, and any tool can build on top of it: Tailwind, JSX, a design
-tokens JSON, or just plain ol' CSS.
+## What it does
+
+Checks colors and sizes against WCAG 2.2 success criteria and returns pass/fail results. It covers text contrast, non-text contrast (UI elements like borders, icons, and controls), large-text thresholds (large text is allowed lower ratios), and target size (interactive elements must be a minimum size).
+
+## Who it's for
+
+Developers or UX-designers building accessibility checks into their apps or tools. If you're writing a design tokens validator, a custom linter, or a compliance tool, it doesn't care where the values come from, and any tool can build on top of it: Tailwind, JSX, a design tokens JSON, or just plain ol' CSS.
 
 ## Installation
 
