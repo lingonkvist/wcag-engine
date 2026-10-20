@@ -1,10 +1,9 @@
 import { normalizeColor, linearize, relativeLuminance, contrastRatio } from './color.js'
 
-/**
- * A color value. Supported formats: hex string ('#rrggbb'), RGB string ('rgb(r, g, b)'), array ([r, g, b]), or object ({r, g, b}).
- *
- * @typedef {string|number[]|{r: number, g: number, b: number}} Color
- */
+/** @typedef {import('./types.js').Color} Color */
+/** @typedef {import('./types.js').ContrastResult} ContrastResult */
+/** @typedef {import('./types.js').NonTextContrastResult} NonTextContrastResult */
+/** @typedef {import('./types.js').TargetSizeResult} TargetSizeResult */
 
 const CONTRAST_THRESHOLDS = {
   aa: { normal: 4.5, large: 3 },
@@ -70,7 +69,7 @@ export class WcagEngine {
    * @param {object} [options] - Optional properties for large-scale text.
    * @param {number} [options.fontSize] - Font size in px.
    * @param {number} [options.fontWeight] - Font weight (e.g. 700).
-   * @returns {{ ratio: number, aa: boolean, aaa: boolean, passes: boolean }} Contrast result with ratio and pass/fail per level.
+   * @returns {ContrastResult} Contrast result with ratio and pass/fail per level.
    */
   checkContrast(foregroundColor, backgroundColor, { fontSize, fontWeight } = {}) {
     if (fontSize !== undefined && (typeof fontSize !== 'number' || fontSize <= 0)) {
@@ -98,7 +97,7 @@ export class WcagEngine {
    *
    * @param {Color} foregroundColor - Foreground color.
    * @param {Color} backgroundColor - Background color.
-   * @returns {{ ratio: number, aa: boolean, passes: boolean }} Contrast result with ratio and pass/fail for AA.
+   * @returns {NonTextContrastResult} Contrast result with ratio and pass/fail for AA.
    */
   checkNonTextContrast(foregroundColor, backgroundColor) {
     const ratio = this.#computeRatio(foregroundColor, backgroundColor)
@@ -113,7 +112,7 @@ export class WcagEngine {
    *
    * @param {number} width - Element width in CSS pixels.
    * @param {number} height - Element height in CSS pixels.
-   * @returns {{ aa: boolean, aaa: boolean, passes: boolean, requiredAa: number, requiredAaa: number }} Pass/fail and required size per level.
+   * @returns {TargetSizeResult} Pass/fail and required size per level.
    */
   checkTargetSize(width, height) {
     if (typeof width !== 'number' || typeof height !== 'number' || width <= 0 || height <= 0) {
