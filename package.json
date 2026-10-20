@@ -1,13 +1,12 @@
 {
   "name": "wcag-engine",
-  "version": "1.1.1",
+  "version": "1.1.3",
   "description": "A WCAG 2.2 rules engine for design values.",
   "type": "module",
   "main": "src/index.js",
   "exports": {
     ".": "./src/index.js"
   },
-  "types": "./src/types.js",
   "files": [
     "src",
     "README.md",
@@ -41,11 +40,9 @@
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@lnu/eslint-config": "^2.0.13",
-    "@stylistic/eslint-plugin": "^5.10.0",
+    "@lnu/eslint-config": "^3.0.1",
     "eslint": "^10.10.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-jsdoc": "^64.4.0",
+    "eslint-plugin-jsdoc": "^65.1.0",
     "eslint-plugin-n": "^18.3.0",
     "eslint-plugin-regexp": "^3.3.0",
     "eslint-plugin-security": "^4.0.1",

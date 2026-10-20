@@ -1,9 +1,11 @@
-import config from '@lnu/eslint-config'
-import prettier from 'eslint-config-prettier'
+import base from '@lnu/eslint-config'
+import jsdoc from '@lnu/eslint-config/jsdoc'
+import node from '@lnu/eslint-config/node'
 
 export default [
-  ...config,
-  prettier,
+  ...base,
+  ...node,
+  ...jsdoc,
   {
     settings: {
       jsdoc: {
